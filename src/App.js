@@ -8,8 +8,6 @@ function createRandomPost() {
 	};
 }
 
-// PostContext is now a Component
-// PostContext because this will provide values related to the blog's Post
 const PostContext = createContext();
 
 function App() {
@@ -44,14 +42,11 @@ function App() {
 	);
 
 	return (
-		// Notice the component tree after creating the Provider
 		<PostContext.Provider
 			value={{
 				posts: searchedPosts,
 				onAddPost: handleAddPost,
 				onClearPosts: handleClearPosts,
-				// we also provide the Query context to PostContext
-				// though we should've created a QueryContext for it
 				searchQuery,
 				setSearchQuery,
 			}}
@@ -65,8 +60,8 @@ function App() {
 				</button>
 
 				<Header />
-				<Main posts={searchedPosts} onAddPost={handleAddPost} />
-				<Archive onAddPost={handleAddPost} />
+				<Main />
+				<Archive />
 				<Footer />
 			</section>
 		</PostContext.Provider>
@@ -107,24 +102,26 @@ function Results() {
 	return <p>🚀 {posts.length} atomic posts found</p>;
 }
 
-function Main({ posts, onAddPost }) {
+function Main() {
 	return (
 		<main>
-			<FormAddPost onAddPost={onAddPost} />
-			<Posts posts={posts} />
+			<FormAddPost />
+			<Posts />
 		</main>
 	);
 }
 
-function Posts({ posts }) {
+function Posts() {
 	return (
 		<section>
-			<List posts={posts} />
+			<List />
 		</section>
 	);
 }
 
-function FormAddPost({ onAddPost }) {
+function FormAddPost() {
+	const { onAddPost } = useContext(PostContext.Consumer);
+
 	const [title, setTitle] = useState('');
 	const [body, setBody] = useState('');
 
@@ -153,7 +150,8 @@ function FormAddPost({ onAddPost }) {
 	);
 }
 
-function List({ posts }) {
+function List() {
+	const { posts } = useContext(PostContext.Consumer);
 	return (
 		<ul>
 			{posts.map((post, i) => (
@@ -166,7 +164,9 @@ function List({ posts }) {
 	);
 }
 
-function Archive({ onAddPost }) {
+function Archive() {
+	const { onAddPost } = useContext(PostContext.Consumer);
+
 	const [posts] = useState(() =>
 		Array.from({ length: 10000 }, () => createRandomPost())
 	);
