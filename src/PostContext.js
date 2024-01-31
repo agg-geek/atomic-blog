@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 import createRandomPost from './CreateRandomPost';
 
 const PostContext = createContext();
@@ -41,4 +41,10 @@ function PostProvider({ children }) {
 	);
 }
 
-export { PostContext, PostProvider };
+// Custom hook:
+// used by other components as the Context consumer
+function usePosts() {
+	return useContext(PostContext);
+}
+
+export { PostProvider, usePosts };
