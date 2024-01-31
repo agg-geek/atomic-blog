@@ -41,10 +41,10 @@ function PostProvider({ children }) {
 	);
 }
 
-// Custom hook:
-// used by other components as the Context consumer
 function usePosts() {
-	return useContext(PostContext);
+	const context = useContext(PostContext);
+	if (!context) throw new Error('PostContext was used outside of the PostProvider');
+	return context;
 }
 
 export { PostProvider, usePosts };

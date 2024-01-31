@@ -3,6 +3,13 @@ import { PostProvider, usePosts } from './PostContext';
 import createRandomPost from './CreateRandomPost';
 
 function App() {
+	// if we use the PostContext outside the PostProvider,
+	// then that'll return undefined, ie x returns undefined
+	// hence, to safeguard against this undefined,
+	// we throw Error in usePosts if context is not defined
+	// const x = usePosts();
+	// console.log(x);
+
 	const [isFakeDark, setIsFakeDark] = useState(false);
 
 	useEffect(
